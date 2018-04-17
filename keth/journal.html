@@ -1,0 +1,116 @@
+
+<!DOCTYPE html> 
+
+<html lang="en">
+<head>
+     <title>Keth-Nyr</title>
+	 <link rel="stylesheet" href="../style.css">
+	 <a href="index.html"> Back </a>
+</head>
+<body>
+<table class="journal_nav_table">
+	<tr>
+		<td><a onClick='first()'>First</a></td>
+		<td><a onClick='prev()'>Previous</a></td>
+		<td class="middle_nav_cell"></td>
+		<td><a onClick='next()'>Next</a></td>
+		<td><a onClick='last()'>Last</a></td>
+	</tr>
+</table>
+<div class="prose" id="journal">
+	<p>
+		Coming Soon
+	</p>
+</div>
+
+<script>
+
+	var array = [];
+	index=0;
+
+	array.push(
+	("<p>One moment I was building a fire to roast the lizard I'd shot down for dinner, and the next, I awakened to the all-too-familiar sound of marching raiders. They'd taken everything I had, as was evident from the rusty iron on my bare ass. This band had a handful of other captures; foreigners with no idea what they were doing out here. At least this time, I wasn't alone.</p>"+
+	"<p>This isn't the first time I've been in a cage.</p>"+
+	"<div style=\"font-style:italic;margin-left:40px;margin-right:40px;\">"+
+		"<p>I was part of a tribe of nomads who spun fabrics dyed with the colors of the native plants. We wore the most beautiful scarves and sarongs, in greens and golds and purples. The scarf my mother wove for me was white and red - the colors of the pathfinder, she'd told me. When we met other bands of travelers we traded goods; salted meats for dyed canvas, clay pottery for waterskins, information for information. We told them what we knew of survival in the desert, and they told us of landmarks we had yet to find. I heard stories about distant lands, cities in the desert like bejewled oases. There was a time when all I wanted was to see the places their stories were born form.</p>"+
+		"<p>But then the raiders came.</p>"+
+		"<p>Orc raiders have no respect for the land or the cultures of the people who live in it. They see only things to be consumed- goods, gold, food. We weren't fighters, we were shepards and artisans, and we didn't stand a chance.</p>"+
+		"<p>When they came for us I fought tooth and nail, but it wasn't nearly enough. One swift kick to the back of the head and I was done. The last memory of my old life was my mother screaming her protests, and the bright desert sun beating down on golden sand before it all faded to black.</p>"+
+		"<p>I was far too curious a creature to be sold off or killed for meat. My captors wanted to see the feisty desert goat in action. They wanted to watch me fight. I was lucky. They kept me for the fight pits.</p>"+
+		"<p>My slave name was Tarkar. It means 'goat' to the orcs. They saw my ivory horns and thought I was like the ibex that roam the desert- looking for food in the most unlikely places, fighting to live and surviving against all odds.</p>"+
+		"<p>I didn't know how to fight, but like a hawkling thrown from the nest I learned quickly when I had no other option. They'd throw me into the pits with dogs, wildcats, boars, whatever they found that might be amusing to see the goat boy fight. I shed a lot of blood on the sands of the fight pits, before I learned that with a shield and a cudgel there was nothing I couldn't endure. The howls of the orcs were the rhythm of my days. At least they let me keep my scarf.</p>"+
+		"<p>By the time I was a teen, the orcs had grown fond of me as one grows fond of a dog. My fights were their nightly entertainment, and to see me bleed was the only color their lives needed.</p>"+
+		"<p>Finally they let their guard down. They posted a scrappy kid to guard my cage, and after years of watching for a hole in their defense, I knew how to make my escape. After the rest of the band went to sleep, all it took was a swift puch to the head, and my guard went down. I lifted the cage door, grabbed the supplies I needed, and ran. They never saw the goat boy again.</p>"+
+		"<p>My mother didn't die to see me in bars again.</p>"+
+	"</div>"+
+	"<p>This time the raiders bit off more than they could chew. This time, I already knew how to fight. The other captures are scrappier than I expected. We got out and grabbed what supplies we could carry. My armor, my shield, my sword are all gone, but I can live with that. They'll be easy enough to regain, but my scarf cannot be replaced. I'm just glad I have it back.</p>"+
+	"<p>They're headed the same way I am, so at least for now, we travel together.</p>"
+	));
+
+	array.push(
+	"<p>The strangers I travel with now are... odd. There is a small woman, very quick and disarmingly talkative, who I think is unlikely to survive at this rate. One of them has the skin of a dragon, brilliant blue, like an osasis. Looking at her colors can leave one breathless. I don't imagine there is much she can't handle.	There is a man from far away, who I couldn't help but notice while in cages that every inch, and I mean <i>every</i>, inch of his body is covered in tattoos. The patterns are geometric and strange, not like any I've seen before. He understands how to fight, as well, and for this I respect him. He and I are likely to endure this, I think.</p>"+
+	"<p>Then, there's this little girl. I had hoped she was more competent than she appeared, since she managed to undo our cages and gather supplies in an efficient way. She can't be more than 18 summers, and yet she thinks she understands everything.</p>"+
+	"<p>Our path to the city was threatened by some creature I have not seen before, whose head was nothing more than a large skull with great fangs, that walked on eight legs. As the skulls in the dunes started to shift, I suspected some threat, so I stood my ground. The idiot girl strolled forward, ahead of us, and was immediately downed by the monsters. By every right, she deserved it. I warned her to be careful and she marched into the maw of danger. But somehow I couldn't let her die.</p>"+
+	"<p>I watched the blood spill form her ankle and stain the sands and I had to do something. I ran to her side, tore a scrap from her dress and d what I could to wrap her wound. She had lost a lot of blood, and I've never been a healer, but I did what I could. I carried her out of that battle, still unsure if she'd pull through or not.</p>"+
+	"<p>The dragon girl has some talents she's not willing to talk about. When I pressed her about it she said they were 'just dragon things' but I'm not sure I believe that.</p>"+
+	"<p>Unbelievably, the girl woke up hours after we'd made it out and struck camp. The first thing she did was lecture me on respect. If she doesn't learn to be more careful, she's certainly going to die out here.</p>"+
+	"<p>Bazzareth is a long ways off yet. I long to have a shield again. I feel naked and vulnerable without one. Perhaps we'll find a trader soon. At evening we embark again.</p>"
+	);
+	
+	array.push(
+	"<p>We came across a village of tiny folk.  They call themselves Burrowlings and they call their village Chibatta. I have never been quite so charmed with a tribe of natives as these tiny furry creatures. Their elder, Vik, was able to provide us with food and guidance. He was unable to part with nay more of his family's resources, but I can't fault him for that. His help was all we needed to make it into Bazzareth.</p>"+
+	"<p>Just the gates of the city were enough to amaze. My new life begins here, at last.</p>"
+	);
+
+	first();
+
+	function first()
+	{
+		index=0;
+		setUp();
+	}
+
+	function next()
+	{
+		if(index<(array.length-1))
+			index++;
+		setUp();
+	}
+
+	function prev()
+	{
+		if(index>0)
+			index--;
+		setUp();
+	}
+
+	function last()
+	{
+		index=array.length-1;
+		setUp();
+	}
+
+	function setUp()
+	{
+		document.getElementById("journal").innerHTML="<h2> #" + (index+1) + "</h2>" + array[index];
+	}
+</script>
+
+<table class="journal_nav_table">
+	<tr>
+		<td><a onClick='first()'>First</a></td>
+		<td><a onClick='prev()'>Previous</a></td>
+		<td class="middle_nav_cell"></td>
+		<td><a onClick='next()'>Next</a></td>
+		<td><a onClick='last()'>Last</a></td>
+	</tr>
+</table>
+<div class="footer">
+	<cite> 
+	<p>Made by Ace English, 2017.<br>ace.trumps@gmail.com<br>
+        DnD is trademark of Wizards of the Coast, Inc. and is used according to the terms of the <a href="../ogl.html">Open Game License.</a>
+	</p>
+	</cite>
+</div>
+</body>
+</html>

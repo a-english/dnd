@@ -1,0 +1,85 @@
+**6/17/17 via laptop at dnd*************
+played dnd (keth char sheet, keth journal)
+
+**5/28/17 via borrowed laptop at home***
+-Keth's journal uses fun javascript
+-Fixed indexing links on origin and backstory
+-Tweaked style sheet for nav bar menu
+
+
+
+**5/28/17 via borrowed laptop @ DND***
+SWEET UPGRADES to KEth's char sheet
+
+****05/18/17 via home laptop*********
+Uploaded Keth img
+Modified style sheet so Keth img would look less shit
+
+****05/18/17 via home laptop*********
+-KETH folder, includes templates for:
+	-keth index
+	-keth char cheet
+	-keth story
+	
+-Updated index to link to Keth
+
+****05/03/17 via ARC computer lab******
+-Uploaded bulk of fiction for processing. Ian, you don't want anything to do with it. Trust me. It's mostly smut. I'm not going to tell you how to live your life, but I would not adivse you read it.
+
+Index
+-fixed story links on and added new one
+
+-new directory stories
+  -out.html
+
+Battleaxe
+-moved battleaxe to stories
+-updated battleaxe's style pathing
+
+Style
+-Prose's HR is smaller and has a bigger margin
+-Prose's h1 is bigger
+
+
+
+****05/01/17 via ARC computer lab******
+Updated world map
+
+
+****03/24/17 via ARC Computer Lab******
+Every file now has a footer.
+
+Style
+-made ToDoList class
+-made footer class
+-fix indexes
+-improved Prose
+
+index.html
+-Fixed index list
+
+ogl.html
+-New
+
+Jennessa/Inventory.html
+-Removed vagina from coinpurse
+
+Jennessa/Todo.html:
+-Updated list
+-Changed style sheet for list instead of inline cancer
+
+Jennessa/index.html
+-Fixed index list
+
+Jace/index.html
+-Fixed index list
+-Included footer
+
+Jace/riffer.html
+-Fixed prose box
+-Included cute hr
+
+TODO:
+-add table to char sheet
+-fix spell list
+-change potion to just be a lookup fn?

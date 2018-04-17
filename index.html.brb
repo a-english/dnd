@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+	<title> Not Fucking It </title>
+	<style>img {
+    text-align: center;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+h1{
+	text-align: center;
+	color: white;
+	position: absolute;
+	margin: auto;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	font-color:white;
+}
+</style>
+</head>
+<body style="background-color:black">
+<h1> Server in progess</h1>
+<p><span title="The users fucking it"><img src="/images/gettingpummeled.gif" align="top" align="middle" alt="Users fucking it"></p></span>
+</body>
+</html>
