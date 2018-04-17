@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html><head>
+	 <link rel="stylesheet" href="../resources/style.css">
+<link href='http://fonts.googleapis.com/css?family=Lora:700' rel='stylesheet' type='text/css'/>
+<link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'/><meta charset='utf-8'/><title>Rhaghthroknaar</title></head><body>
+	
+	
+<script type="text/javascript" language="Javascript" src="../../resources/roll.js">
+</script>
+	
+	
+	
+	
+	
+	
+	<template id='tapered-rule'>
+  <style>
+    svg {
+      fill: #922610;
+      /* Stroke is necessary for good antialiasing in Chrome. */
+      stroke: #922610;
+      margin-top: 0.7em;
+      margin-bottom: 0.35em;
+    }
+  </style>
+  <svg height='5' width='400'>
+    <polyline points='0,0 400,2.5 0,5'></polyline>
+  </svg>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'tapered-rule';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='top-stats'>
+  <tapered-rule></tapered-rule>
+  <content></content>
+  <tapered-rule></tapered-rule>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'top-stats';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='creature-heading'>
+  <style>
+    ::content > h1 {
+      font-family: 'Lora', 'Calisto MT', 'Bookman Old Style', Bookman,
+                    'Goudy Old Style', Garamond, 'Hoefler Text',
+                    'Bitstream Charter', Georgia, serif;
+      color: #7A200D;
+      font-weight: 700;
+      margin-top: -6px;
+      margin-bottom: -2px;
+      font-size: 25px;
+      letter-spacing: 2px;
+      font-variant: small-caps;
+    }
+
+    ::content > h2 {
+      font-weight: normal;
+      font-style: italic;
+      font-size: 12px;
+      margin: 0;
+    }
+  </style>
+  <content select='h1'></content>
+  <content select='h2'></content>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'creature-heading';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='abilities-block'>
+  <style>
+    :host {
+      color: #7A200D;
+    }
+
+    table {
+      width: 100%;
+      border: 0px;
+      border-collapse: collapse;
+    }
+    th, td {
+      width: 50px;
+      text-align: center;
+    }
+  </style>
+  <tapered-rule></tapered-rule>
+  <table>
+    <tbody><tr>
+      <th>STR</th>
+      <th>DEX</th>
+      <th>CON</th>
+      <th>INT</th>
+      <th>WIS</th>
+      <th>CHA</th>
+    </tr>
+    <tr>
+      <td id='str'></td>
+      <td id='dex'></td>
+      <td id='con'></td>
+      <td id='int'></td>
+      <td id='wis'></td>
+      <td id='cha'></td>
+    </tr>
+  </tbody></table>
+  <tapered-rule></tapered-rule>
+</template>
+<script>
+(function(window, document) {
+  function abilityModifier(abilityScore) {
+    var score = parseInt(abilityScore, 10);
+    return Math.floor((score - 10) / 2);
+  }
+
+  function formattedModifier(abilityModifier) {
+    if (abilityModifier >= 0) {
+      return '+' + abilityModifier;
+    }
+    // This is an en dash, NOT a 'normal' dash. The minus sign needs to be more
+    // visible.
+    return '-' + Math.abs(abilityModifier);
+  }
+
+  function abilityText(abilityScore) {
+    return [String(abilityScore),
+            ' (',
+            formattedModifier(abilityModifier(abilityScore)),
+            ')'].join('');
+  }
+
+  var elemName = 'abilities-block';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        var root = this.createShadowRoot().appendChild(clone);
+      }
+    },
+    attachedCallback: {
+      value: function() {
+        var root = this.shadowRoot;
+        for (var i = 0; i < this.attributes.length; i++) {
+          var attribute = this.attributes[i];
+          var abilityShortName = attribute.name.split('-')[1];
+          root.getElementById(abilityShortName).textContent =
+             abilityText(attribute.value);
+        }
+
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='property-block'>
+  <style>
+    ::content > h4 {
+      display: inline;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    ::content > p {
+      display: inline;
+    }
+
+    p {
+      margin-top: 0.3em;
+      margin-bottom: 0.9em;
+    }
+  </style>
+  <p><content></content></p>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'property-block';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='property-line'>
+  <style>
+    :host {
+      color: #7A200D;
+    }
+
+    div {
+      /* Indenting everything EXCEPT the first line. */
+      text-indent: -1em;
+      margin-left: 1em;
+    }
+
+    ::content > * {
+      display: inline;
+    }
+
+    ::content > p {
+      margin-left: 0.4em;
+    }
+  </style>
+  <!-- Specific select expressions needed instead of just one <content>
+  to avoid the original witespace between the elements.  -->
+  <div><content select='h4'></content><content select='p'></content></div>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'property-line';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='stat-block'>
+  <style>
+    :host {
+      width: 424px;
+      display: block;
+    }
+
+    #content-wrap {
+      font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial,
+                    sans-serif;
+      font-size: 13px;
+      display: block;
+      background: #FDF1DC;
+      padding: 0.6em;
+      border: 1px #DDD solid;
+      box-shadow: 0 0 1.5em #867453;
+
+      /* We don't want the box-shadow in front of the bar divs. */
+      position: relative;
+      z-index: 0;
+
+      /* Leaving room for the two bars to protrude outwards */
+      margin-left: 2px;
+      margin-right: 2px;
+    }
+
+    ::content > h3 {
+      border-bottom: 1px solid #7A200D;
+      color: #7A200D;
+      font-size: 18px;
+      font-variant: small-caps;
+      font-weight: normal;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    /* Last block shouldn't have margin, too much white space. */
+    ::content property-block:last-child /deep/ p {
+      margin-bottom: 0;
+    }
+
+    .bar {
+      height: 5px;
+      background: #E69A28;
+      border: 1px solid #000;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+  <div class='bar'></div>
+  <div id='content-wrap'>
+    <content></content>
+  </div>
+  <div class='bar'></div>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'stat-block';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="content">
+	<div class="header">
+		<a href="./index.html"> Back </a>
+	 </div>
+	 
+	 
+<stat-block>
+  <creature-heading>
+    <h1>Rhaghthroknaar</h1>
+    <h2>Medium dragon, lawful good</h2>
+  </creature-heading>
+
+  <top-stats>
+    <property-line>
+      <h4>Armor Class</h4>
+      <p>17 (natural armor)</p>
+    </property-line>
+    <property-line>
+      <h4>Hit Points</h4>
+      <p>17 <a onclick='roll(1,8,2)'>(2d8+4)</a></p>
+    </property-line>
+    <property-line>
+      <h4>Speed</h4>
+      <p>30 ft.</p>
+    </property-line>
+
+    <abilities-block data-str='12'
+                     data-dex='18'
+                     data-con='12'
+                     data-int='14'
+                     data-wis='11'
+                     data-cha='15'></abilities-block>
+
+        
+
+        
+
+    
+        
+    
+                
+    
+        
+    <!--<property-line>
+      <h4>Saving Throws</h4>
+      <p>Wisdom, Charisma</p>
+    </property-line>-->
+    <property-line>
+      <h4>Skills</h4>
+      <p>Acrobatics +8, Athletics +8, Persuasion +6</p>
+    </property-line>
+    <property-line>
+      <h4>Senses</h4>
+      <p>Passive Perception 10</p>
+    </property-line>
+    <property-line>
+      <h4>Languages</h4>
+      <p>Common</p>
+    </property-line>
+    <property-line>
+      <h4>Challenge</h4>
+      <p>3 (700 XP)</p>
+    </property-line>
+  </top-stats>
+  <property-block>
+  </property-block>
+	<property-block>
+		<h4>Lightfooted</h4>
+		<p>The swashbuckler can take the Dash or Disengage action as a bonus action on each of its turns.</p>
+		</property-block>
+	<property-block>
+		<h4>Suave Defence</h4>
+		<p>While the swashbuckler is wearing light or no armor and wielding no shield, its AC includes its Charisma modifier.</p>
+		</property-block>
+		<!--<property-block>
+		<h4>Spellcasting</h4>
+		<p>Fynn is a level 5 spellcasted with Charisma as her spellcasting modifier. (save DC 15, +7 to hit). She has access to the following spells:
+		<ul style="padding:5px;">
+			<li>Cantrips (at will): <i>mending, light, prestidigitation</i></li>
+			<li>1st level (4 slots): <i>cure wounds, healing word, feather fall</i></li>
+			<li>2nd level (3 slots): <i>enhance ability, lesser restoration, pyrotechnics</i></li>
+			<li>3rd level (2 slots): <i>haste, mass healing word</i></li>
+		</ul>
+		</property-block>-->
+        <h3>Inventory</h3>
+      <property-block>
+	  <h4>Leather Armor</h4>
+	  <p>Light armor. 13 AC + Dex</p>
+	 </property-block>
+	 <property-block>
+		<h4>Gold</h4>
+		<p>Dubloons and jewlery worth <a onclick='roll(3,6,0)'>3d6</a> x 10 gp</p>
+	</property-block>
+      
+    <h3>Actions</h3>
+        <property-block>
+			<h4>Multiattack</h4>
+			<p>The swashbuckler makes three attacks: one with a
+dagger and two with its rapier.
+			</p>
+		</property-block>
+        <property-block>
+			<h4>Dagger</h4>
+			<p>Melee or Ranged Weapon Attack: <a onclick='roll(1,20,6)'>+6</a> to hit, reach 5 ft.
+or range 20/60 ft., one target. Hit: <a onclick='roll(1,4,4)'>(1d4 + 4)</a> piercing damage.
+			</p>
+		</property-block>
+        <property-block>
+			<h4>Rapier</h4>
+			<p>Melee Weapon Attack: <a onclick='roll(1,20,6)'>+6</a> to hit, reach 5 ft., one target.
+Hit: <a onclick='roll(1,8,4)'>(1d8 + 4)</a> piercing damage.
+			</p>
+		</property-block>
+</stat-block>
+
+
+<img src="img/naar.png" class="portrait">
+<p>
+Bronze dragons have a strong sense of justice and do not tolerate
+cruelty or anarchy in any form. Many a pirate or robber
+has faced swift retribution from a bronze dragon using an
+innocuous disguise. Bronze dragons also have an inquisitive
+side and find the activities of other creatures, particularly
+humanoids, endlessly fascinating. They enjoy polymorphing
+into small, friendly animals to study such activities.
+Bronze dragons like to be near deep fresh water or salt
+water, and are found in temperate and tropical coastal areas
+and islands. They often visit the depths to cool off or hunt
+for pearls and sunken treasure.</p>
+<p>Bronze dragons wage a constant struggle against evil sea
+creatures, particularly ones that menace the coasts, such as
+sahuagin, merrow, and scrags. They sometime find themselves
+with black or green dragons for neighbors. While the
+bronzes are content to live and let live, the evil dragons are
+seldom willing to return the favor.</p>
+<p>Bronze dragons prefer make their lairs in caves that are
+accessible only from the water, but their lairs are always dry—
+they do not lay eggs, sleep, or store treasure underwater. Often,
+a bronze dragon’s lair has a lower area that floods at high tide
+and an upper area that remains dry around the clock.
+Dungeon-dwelling bronze dragons often live near underground
+streams or lakes.</p>
+<p><b>Bronze Dragon Identifiers</b>
+A bronze dragon in its true form can be recognized by the
+ribbed and fluted crests sweeping back from its cheeks and
+eyes. The ribs in the crests end in curving horns. These horns are smooth, dark, and oval in cross-section, and curve
+slightly inward toward the dragon’s spine. The largest horns
+grow from the top of the head. In older dragons, the smaller
+horns often develop secondary points. The dragon also has
+small horns on its lower jaw and chin.</p>
+<p>A bronze dragon has a beaklike snout and a pointed
+tongue. It has a small head frill and a tall neck frill.
+A bronze dragon has webbed feet and webbing behind
+the forelimbs. Its scales are smooth and flat.
+A bronze wyrmling’s scales are yellow tinged with green,
+showing only a hint of bronze. As the dragon approaches
+adulthood, its color deepens slowly to a darker, rich bronze
+tone. Very old dragons develop a blue-black tint to the edges
+of their scales. Their pupils fade as they age, until in the
+oldest the eyes resemble glowing green orbs. A smell of sea
+spray lingers about them.</p>
+<p>When viewed from below, a bronze dragon’s wings show
+green mottling on the back edges. The trailing edge of the
+wing membrane joins the body behind the rear legs, at the
+point where the tail meets the pelvis.
+Most of the alar phalanges are very short and form a wide
+frill just beyond the alar thumb. The innermost phalange is the
+longest, and it provides most of the support for the wings,
+along with a modified alar olecranon at the “elbow” of the alar
+limb (see page 8). This arrangement allows the dragon to use
+its wings as big fins underwater. A bronze dragon can flap its
+wings when submerged and literally fly through the water.
+Habits</p>
+<p>A bronze dragon spends much of its time in an assumed
+form, usually that of a small animal or an older humanoid.
+This charade serves the dragon’s inquisitive nature by allowing
+it a chance to observe the world without drawing attention
+to itself or disrupting the flow of events. Bronze dragons
+value moral order and altruism.</p>
+<p>Bronze dragons frequently congregate with others of
+their kind, making them among the most gregarious of the true dragons. When in their natural form, they sometimes
+swim or play together in the waves. They gather even more
+frequently when using assumed forms, particularly when
+observing some event of interest to them. They find warfare
+fascinating, and many have served in armies fighting for
+good causes. Afterward, they may spend decades debating
+the course of the war, its causes, and its consequences.
+Though they have no lack of draconic pride, bronze dragons
+enjoy the company of humans and other humanoids.
+They consider these “lesser” creatures to be just as deserving
+of survival and happiness as themselves. When in the company
+of humanoids, a bronze dragon usually assumes
+humanoid form, both as a practical matter (it can be very
+hard to fit a bronze adult into a seaside cottage), and to keep
+the humanoids at ease. Bronze dragons delight in testing a
+stranger’s sense of decency by posing as penniless beachcombers,
+shipwrecked sailors, or guileless primitives.
+Unscrupulous creatures who attempt to cheat, bully, rob, or
+kill a masquerading dragon soon find more trouble than they had bargained for when the dragon reveals itself. Creatures
+who conduct themselves well may never know they
+have actually encountered a bronze dragon. Nevertheless,
+good conduct earns the dragon’s respect, and it is usually
+remembered, perhaps to be rewarded someday.
+Most bronze dragons maintain a constant watch for pirates,
+natural disasters, and ships in distress. Many a shipwrecked
+mariner has been rescued by the timely intervention of a
+bronze dragon. Because bronze dragons usually perform such
+rescues while disguised as something else, the beings they save
+often remain unaware of exactly who their benefactor was.
+Courtship and mating among bronze dragons is always a
+deliberate and respectful affair. Bronze dragons mate for life,
+and one often refuses to take a new mate after the death of
+the original mate. They always tend their eggs and offspring
+carefully and defend them to the death if necessary.
+Bronze dragons eat aquatic plants and some varieties of
+seafood. They especially prize shark meat, and often spend
+days at sea hunting sharks. They also dine on the occasional pearl. They often keep pearls in their lairs, both as treasures
+and snacks. They admire other treasures from the sea as well,
+such as bits of rare coral and amber. Though they don’t care
+to admit it, their favorite metal is gold, which does not tarnish
+in their humid lairs.</p>
+<p>Bronze dragons usually attack only in self-defense or to
+defend those unable to defend themselves. They dislike
+killing anything they don’t plan to eat, and they try especially
+hard to avoid killing animals that are merely defending
+themselves. They usually try to distract attacking animals
+with food, using their repulsion breath to fend them off if
+distractions fail. Against intelligent foes, bronze dragons
+usually try to negotiate, but remain wary of duplicity.
+Often, a bronze dragon figures out a way to be victorious
+in a conflict without dealing damage, such as stranding a foe
+on an island or dismasting a ship at sea.</p>
+  <p>
+	Bronze dragons are coastal dwellers that feed primarily on aquatic plants and fish. They take the forms of friendly animals to observe other creatures of interest. They are also fascinated by warfare and eagerly join armies fighting for a just cause. A ribbed and fluted crest defines the shape of a bronze dragon's head. Curving horns extend out from the crest, echoed by spines on its lower jaw and chin. To help them swim, bronze dragons have webbed feet and smooth scales. A bronze wyrmling's scales are yellow tinged with green; only as the dragon approaches adulthood does its color deepen to a darker, rich bronze tone. The pupils of a bronze dragon's eyes fade as the dragon ages, until they resemble glowing green orbs. Dragons of the Coast. Bronze dragons love to watch ships traveling up and down the coastlines near their lairs, sometimes taking the forms of dolphins or seagulls to inspect those s hips and their crews more closely. A daring bronze dragon might slip aboard a ship in the guise of a bird or rat, inspecting the hold for treasure. If the dragon finds a worthy addition to its hoard, it barters with the ship's captain for the item. </p>
+	<p><b>War Machines.</b> Bronze dragons actively oppose tyranny, and many bronze dragons yearn to test their mettle by putting their s ize and strength to good use. When a conflict unfolds near its lair, a bronze dragon ascertains the underlying cause, then offers its services to any side that fights for good. Once a bronze dragon commits to a cause, it remains a staunch ally. </p>
+	<p><b>Well-Organized Wealth.</b> Bronze dragons loot sunken ships and also collect colorful coral and pearls from the reefs and seabeds near their lairs. When a bronze dragon pledges to help an army wage war against tyranny, it asks for nominal payment. If such a request is beyond its allies' means, it might settle for a collection of old books on military history or a ceremonial item commemorating the alliance. A bronze dragon might also lay claim to a treasure held by the enemy that it feels would be safer under its protection. </p>
+	<p><h2>Lair</h2> A bronze dragon lairs in coastal caves. It might salvage a wrecked ship, reconstruct it within the confines of its lair, and use it as a treasure vault or nest for its eggs. </p>
+<p><b>Lair Actions</b>	On initiative count 20 (losing initiative ties), the dragon takes a lair action to cause one of the following effects: <ul><li>The dragon creates fog as though it had cast the fog cloud spell. The fog lasts until initiative count 20 on the next round.</li>
+	<li>A thunderclap originates at a point the dragon can see within 120 feet of it. Each creature within a 20-foot radius centered on that point must make a DC 15 Constitution saving throw or take 5 (1d10) thunder damage and be deafened until the end of its next turn.</li>
+	</ul>
+<p><b>Regional Effects</b> The region containing a legendary bronze dragon's lair is warped by the dragon's magic.
+<ul><li>Once per day, the dragon can alter the weather in a 6-mile radius centered on its lair. The dragon doesn't need to be outdoors; otherwise the effect is identical to the control weather spell.</li>
+<li>Underwater plants within 6 miles of the dragon's lair
+take on dazzlingly brilliant hues.</li>
+<li>Within its lair, the dragon can set illusory sounds, such as soft music and strange echoes, so that they can be heard in various parts of the lair.</li></ul>
+If the dragon dies, changed weather reverts to normal,
+as described in the spell, and the other effects fade
+in 1dl0 days.
+<p>
+</div>
+<div class='footer'>
+	<cite> 
+	<p>Made by Ace English, 2017.<br>ace.trumps@gmail.com<br>
+        DnD is trademark of Wizards of the Coast, Inc. and is used according to the terms of the <a href="../ogl.html">Open Game License.</a>
+	</p>
+	</cite>
+</div>
+
+</body>
+</html>

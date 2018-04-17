@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html><head>
+	 <link rel="stylesheet" href="../../resources/style.css">
+<link href='http://fonts.googleapis.com/css?family=Lora:700' rel='stylesheet' type='text/css'/>
+<link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'/><meta charset='utf-8'/><title>Flying Pigs - Mockery</title></head><body>
+	
+	
+<script type="text/javascript" language="Javascript" src="../../resources/roll.js">
+</script>
+	
+	
+	
+	
+	
+	
+	<template id='tapered-rule'>
+  <style>
+    svg {
+      fill: #922610;
+      /* Stroke is necessary for good antialiasing in Chrome. */
+      stroke: #922610;
+      margin-top: 0.7em;
+      margin-bottom: 0.35em;
+    }
+  </style>
+  <svg height='5' width='400'>
+    <polyline points='0,0 400,2.5 0,5'></polyline>
+  </svg>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'tapered-rule';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='top-stats'>
+  <tapered-rule></tapered-rule>
+  <content></content>
+  <tapered-rule></tapered-rule>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'top-stats';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='creature-heading'>
+  <style>
+    ::content > h1 {
+      font-family: 'Lora', 'Calisto MT', 'Bookman Old Style', Bookman,
+                    'Goudy Old Style', Garamond, 'Hoefler Text',
+                    'Bitstream Charter', Georgia, serif;
+      color: #7A200D;
+      font-weight: 700;
+      margin-top: -6px;
+      margin-bottom: -2px;
+      font-size: 25px;
+      letter-spacing: 2px;
+      font-variant: small-caps;
+    }
+
+    ::content > h2 {
+      font-weight: normal;
+      font-style: italic;
+      font-size: 12px;
+      margin: 0;
+    }
+  </style>
+  <content select='h1'></content>
+  <content select='h2'></content>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'creature-heading';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='abilities-block'>
+  <style>
+    :host {
+      color: #7A200D;
+    }
+
+    table {
+      width: 100%;
+      border: 0px;
+      border-collapse: collapse;
+    }
+    th, td {
+      width: 50px;
+      text-align: center;
+    }
+  </style>
+  <tapered-rule></tapered-rule>
+  <table>
+    <tbody><tr>
+      <th>STR</th>
+      <th>DEX</th>
+      <th>CON</th>
+      <th>INT</th>
+      <th>WIS</th>
+      <th>CHA</th>
+    </tr>
+    <tr>
+      <td id='str'></td>
+      <td id='dex'></td>
+      <td id='con'></td>
+      <td id='int'></td>
+      <td id='wis'></td>
+      <td id='cha'></td>
+    </tr>
+  </tbody></table>
+  <tapered-rule></tapered-rule>
+</template>
+<script>
+(function(window, document) {
+  function abilityModifier(abilityScore) {
+    var score = parseInt(abilityScore, 10);
+    return Math.floor((score - 10) / 2);
+  }
+
+  function formattedModifier(abilityModifier) {
+    if (abilityModifier >= 0) {
+      return '+' + abilityModifier;
+    }
+    // This is an en dash, NOT a 'normal' dash. The minus sign needs to be more
+    // visible.
+    return '-' + Math.abs(abilityModifier);
+  }
+
+  function abilityText(abilityScore) {
+    return [String(abilityScore),
+            ' (',
+            formattedModifier(abilityModifier(abilityScore)),
+            ')'].join('');
+  }
+
+  var elemName = 'abilities-block';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        var root = this.createShadowRoot().appendChild(clone);
+      }
+    },
+    attachedCallback: {
+      value: function() {
+        var root = this.shadowRoot;
+        for (var i = 0; i < this.attributes.length; i++) {
+          var attribute = this.attributes[i];
+          var abilityShortName = attribute.name.split('-')[1];
+          root.getElementById(abilityShortName).textContent =
+             abilityText(attribute.value);
+        }
+
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='property-block'>
+  <style>
+    ::content > h4 {
+      display: inline;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    ::content > p {
+      display: inline;
+    }
+
+    p {
+      margin-top: 0.3em;
+      margin-bottom: 0.9em;
+    }
+  </style>
+  <p><content></content></p>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'property-block';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='property-line'>
+  <style>
+    :host {
+      color: #7A200D;
+    }
+
+    div {
+      /* Indenting everything EXCEPT the first line. */
+      text-indent: -1em;
+      margin-left: 1em;
+    }
+
+    ::content > * {
+      display: inline;
+    }
+
+    ::content > p {
+      margin-left: 0.4em;
+    }
+  </style>
+  <!-- Specific select expressions needed instead of just one <content>
+  to avoid the original witespace between the elements.  -->
+  <div><content select='h4'></content><content select='p'></content></div>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'property-line';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+<template id='stat-block'>
+  <style>
+    :host {
+      width: 424px;
+      display: block;
+    }
+
+    #content-wrap {
+      font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial,
+                    sans-serif;
+      font-size: 13px;
+      display: block;
+      background: #FDF1DC;
+      padding: 0.6em;
+      border: 1px #DDD solid;
+      box-shadow: 0 0 1.5em #867453;
+
+      /* We don't want the box-shadow in front of the bar divs. */
+      position: relative;
+      z-index: 0;
+
+      /* Leaving room for the two bars to protrude outwards */
+      margin-left: 2px;
+      margin-right: 2px;
+    }
+
+    ::content > h3 {
+      border-bottom: 1px solid #7A200D;
+      color: #7A200D;
+      font-size: 18px;
+      font-variant: small-caps;
+      font-weight: normal;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    /* Last block shouldn't have margin, too much white space. */
+    ::content property-block:last-child /deep/ p {
+      margin-bottom: 0;
+    }
+
+    .bar {
+      height: 5px;
+      background: #E69A28;
+      border: 1px solid #000;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+  <div class='bar'></div>
+  <div id='content-wrap'>
+    <content></content>
+  </div>
+  <div class='bar'></div>
+</template>
+<script>
+(function(window, document) {
+  var elemName = 'stat-block';
+  var thatDoc = document;
+  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
+  var proto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var template = thisDoc.getElementById(elemName);
+        var clone = thatDoc.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+      }
+    }
+  });
+  thatDoc.registerElement(elemName, {prototype: proto});
+})(window, document);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="content">
+	<div class="header">
+		<a href="./index.html"> Back </a>
+	 </div>
+	 
+	 
+<stat-block>
+  <creature-heading>
+    <h1>Fynn</h1>
+    <h2>Small lightfoot halfling, Neutral Good</h2>
+  </creature-heading>
+
+  <top-stats>
+    <property-line>
+      <h4>Armor Class</h4>
+      <p>15 (mage armor+dex)</p>
+    </property-line>
+    <property-line>
+      <h4>Hit Points</h4>
+      <p>40</p>
+    </property-line>
+    <property-line>
+      <h4>Speed</h4>
+      <p>30 ft.</p>
+    </property-line>
+
+    <abilities-block data-str='10'
+                     data-dex='14'
+                     data-con='11'
+                     data-int='12'
+                     data-wis='10'
+                     data-cha='19'></abilities-block>
+        
+
+        
+
+    
+        
+    
+                
+    
+        
+    <property-line>
+      <h4>Saving Throws</h4>
+      <p>Constitution, Charisma</p>
+    </property-line>
+    <property-line>
+      <h4>Senses</h4>
+      <p>Darkvision 60 ft, passive Perception 13</p>
+    </property-line>
+    <property-line>
+      <h4>Proficiencies</h4>
+      <p>Arcana, Perception, Insight</p>
+    </property-line>
+    <property-line>
+      <h4>Languages</h4>
+      <p>Common, Infernal, Primordial</p>
+    </property-line>
+    <property-line>
+      <h4>Level</h4>
+      <p>5th Sorceror</p>
+    </property-line>
+  </top-stats>
+  <property-block>
+  </property-block>
+	<property-block>
+		<h4>Song of Rest</h4>
+		<p>Anyone taking a short rest in range of Fynn's fiddling can heal an extra 1d6 hp.</p>
+		</property-block>
+	<property-block>
+		<h4>Lucky</h4>
+		<p>Fynn cannot crit fail.</p>
+		</property-block>
+		<property-block>
+		<h4>Spellcasting</h4>
+		<p>Fynn is a level 5 spellcasted with Charisma as her spellcasting modifier. (save DC 15, +7 to hit). She has access to the following spells:
+		<ul style="padding:5px;">
+			<li>Cantrips (at will): <i>mending, light, prestidigitation</i></li>
+			<li>1st level (5 slots): <i>cure wounds, healing word, feather fall</i></li>
+			<li>2nd level (4 slots): <i>enhance ability, lesser restoration, pyrotechnics</i></li>
+			<li>3rd level (2 slots): <i>haste, mass healing word</i></li>
+		</ul>
+		</property-block>
+        <h3>Inventory</h3>
+    <property-block>
+      <h4>Hin Fiddle</h4>
+      <p>Fynn's 'weapon' of choice.</p>
+    </property-block>
+      <property-block>
+	  <h4>Leather Armor</h4>
+	  <p>Light armor. 13 AC + Dex</p>
+	 </property-block>
+      
+    <h3>Actions</h3>
+        <property-block>
+			<h4>Bardic Inspiration</h4>
+			<p>(5 times per long rest) Fynn can use a bonus action to inspire daring in an ally. They gain a d8 that they can use on any d20 roll. If they use it on an attack they can also roll that d8 to add damage. Alternatively they may also use it to subtract from an opponent's roll. Inspiration dice must be used before the player knows if a roll is successful or not.
+			</p>
+		</property-block>
+        
+
+        
+        <property-block>
+    <h4>Dagger.</h4>
+        <p><i>Melee Weapon Attack:</i> <a onclick='roll(1,20,5)'>+5</a> to hit, reach 5 ft., one target.
+    <i>Hit:</i> <a onclick='roll(1,4,3)'>1d4+3<span class='dex_mod'></span></a> Piercing</p>
+  </property-block> 
+</stat-block>
+
+
+<img src="https://i.pinimg.com/564x/a1/37/66/a1376601f1493eefc0b677d26e86887c.jpg" class="portrait">
+
+
+	<p>Fynn grew up on the mainland with a large family. The desire to see the world is what drew her to the sea. She's not in it so much for the gold, and violence makes her stomach churn. But her fiddling brings an incredible energy to the rest of the ship.</p>
+	<p>Her duties on the ship include playing music during meals and fights and healing up crew members after fights. During a raid or pillage she typically dances along the gaff playing something like <a a href="https://www.youtube.com/watch?v=RyHqVaikoJU" target=blank>this</a>, or maybe <a href="https://www.youtube.com/watch?v=83eTbLzmZzo" target=blank>this</a>.
+	</p>
+  <!--
+  <p>
+	Actually comes from a fairly whole family. Mockery is active in piracy because it's how she's most comfortable. She still meets with Aunt Malice in Tortuga occassionally, since that old sea devil still ravages the seas.
+<p>-->
+</div>
+<div class='footer'>
+	<cite> 
+	<p>Made by Ace English, 2017.<br>ace.trumps@gmail.com<br>
+        DnD is trademark of Wizards of the Coast, Inc. and is used according to the terms of the <a href="../ogl.html">Open Game License.</a>
+	</p>
+	</cite>
+</div>
+
+</body>
+</html>
