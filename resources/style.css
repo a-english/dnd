@@ -79,6 +79,7 @@ ul li{
 
 .header{
 	text-align:left;
+	margin-top:20px;
 	height:100px;
 }
 .index{
@@ -146,7 +147,8 @@ ul li{
 }
 
 .outer{
-	height:75%;
+	margin-left:100px;
+	margin-right:100px;
 	overflow:hidden;
 }
 .portrait{
