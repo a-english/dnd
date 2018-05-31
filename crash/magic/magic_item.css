@@ -1,0 +1,58 @@
+.item_card img{
+	float:right;
+	width:30%;
+}
+
+.item_card{
+	width:606px;
+	height:812px;
+	margin:auto;
+	background-image:url("_magic_item_background.png");
+	padding:100px;
+}
+
+.item_card .inner{
+	width:606px;
+	height:812px;
+	overflow:hidden;
+	position: relative;
+}
+
+.item_card h1{
+	text-align:center;
+	font-size:60pt;
+	font-family: 'UnifrakturMaguntia', cursive;
+	margin:10px;
+}
+
+.item_card{
+	font-family: 'Gentium Basic', serif;
+	font-size: 18pt;
+}
+
+.item_card th, td{
+	text-align:left;
+    padding-left: 8px;
+    padding-right: 12px;
+}
+
+tr:nth-child(even) {background-color: #F0D3C1;}
+
+.item_card table{
+	font-family: 'Gentium Basic', serif;
+	font-size: 18pt;
+	margin:auto;
+    border-collapse: collapse;
+}
+
+.rarity {
+    position:absolute;
+	left:0;
+    bottom:0;
+}
+.attunement {
+    position:absolute;
+    bottom:0;
+    right:0;
+}
+	
